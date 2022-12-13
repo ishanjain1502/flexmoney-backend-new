@@ -34,7 +34,7 @@ const SignIn = async (req, res) => {
         console.log(user)
         const val = LoginSchema.validate(user);
         if(val.error){
-            return res.status(404).json({ message: 'data filled not appropriate', status : 404});
+            return res.status(404).json({ info: 'data filled not appropriate', status : 404});
         }
 
         const data = await FindUserWithEmailAndPassWord(user);
