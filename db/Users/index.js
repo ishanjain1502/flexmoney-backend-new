@@ -29,7 +29,16 @@ const UserDataUpdate = async (userId, userData) => {
     password = await bcrypt.hash(password, 10);
   }
   console.log(userId);
-  await UserModal.findOneAndUpdate({ _id: userId }, { ...userData, password });
+
+  let userReq = await UserModal.findOne({_id: userId});
+
+  if(userReq.status === true){
+
+  }else{
+    await UserModal.findOneAndUpdate({ _id: userId }, { ...userData, password });
+  }
+
+  
 
   const data = await UserModal.findOne({ _id: userId });
 
