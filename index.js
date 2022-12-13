@@ -1,6 +1,7 @@
 const createError = require("http-errors");
 const express = require("express");
 const path = require("path");
+const schedule = require('node-schedule');
 
 require("dotenv").config()
 var cors = require('cors')
@@ -28,14 +29,14 @@ const router = express.Router();
 db.Connect();
 const PORT = process.env.PORT
 
-app.use('/api/v1' , router) 
+// app.use('/api/v1' , router) 
 
 app.listen(PORT, () => {
     console.log(`server is running on port ${PORT}`);
 });
 
-app.use("/", IndexRoutes);
-app.use("/users", UserRoutes);
+app.use("/api/v1/", IndexRoutes);
+app.use("/api/v1/users", UserRoutes);
 
 app.use(function (req, res, next) {
     next(createError(404));

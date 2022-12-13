@@ -5,9 +5,11 @@ const bcrypt = require("bcryptjs")
 
 
 const AddUserInDataBase = async (user) => {
+    console.log("INSIDE ADD USER IN DB <<<<<<<<");
     const isf=await isFound(user);
     if (isf) {
-        throw new Error('User Name our Email exits in DataBase');
+        let flag = 1;
+        return { flag };
     }
 
     const password=await bcrypt.hash(user.password,10)
@@ -24,7 +26,8 @@ const AddUserInDataBase = async (user) => {
 
 const UserDataUpdate= async(userId,userData)=>{
     let {password}=userData;
-
+    console.log(userData);
+    console.log('<<<<<');
     if(password)
     {
         password=await bcrypt.hash(password,10)

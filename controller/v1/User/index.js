@@ -4,14 +4,23 @@ const { AddUserInDataBase,
 } = require("../../../db/Users/index")
 
 const { isValid,isValid1 } = require('./user');
+const {RegisterSchema, LoginSchema} = require("../../../middleware/v1/validations");
 
 const SignUp = async(req,res) => {
     try{
         const user = req.body;
         console.log(user)
-        if (!isValid(user)) return res.status(404).send('data filled not appropriate');
+        const val = RegisterSchema.validate(user)
+        if(val.error){
+            return res.status(404).json({ message: 'data filled not appropriate', status : 404});
+        }
         const data = await AddUserInDataBase(user);
-        return res.status(200).send({ info: 'User Add', data });
+
+        if(data.flag === 1){
+            return res.status(301).send({ info: 'Duplicate email or number' , status: 301});
+        }
+
+        return res.status(200).send({ info: 'User Added', data , status: 200});
     }catch(e){
         console.log(e);
         res.status(500).send(e);
@@ -23,26 +32,30 @@ const SignIn = async (req, res) => {
     try {
         const user = req.body;
         console.log(user)
-        if (!isValid1(user)) return res.status(404).send('data filled not appropriate');
+        const val = LoginSchema.validate(user);
+        if(val.error){
+            return res.status(404).json({ message: 'data filled not appropriate', status : 404});
+        }
+
         const data = await FindUserWithEmailAndPassWord(user);
-        return res.status(200).send({ info: 'User Add', data });
+        return res.status(200).send({ info: 'User Logged in', data , status : 200});
     } catch (e) {
         console.log(e);
-        res.status(500).send(e);
+        res.status(500).send({e, status : 500});
     }
 }   
 
 const UsersUpdate =async (req,res) => {
 
     try {
-
+        
         console.log('call')
 
         const data = await UserDataUpdate(req.userId,req.body);
-        return res.status(200).send({ info: 'Users Updated', data });
+        return res.status(200).send({ info: 'Users Updated', data , status : 200});
     } catch (e) {
         console.log(e);
-        res.status(500).send(e);
+        res.status(500).send({e , status : 500});
     }
 }
 

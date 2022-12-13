@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const {Schema } = mongoose;
 
-const UserSchema = new Schema({
+const UserSchema = new mongoose.Schema({
     name : {
         type: String,
         unique: true,
@@ -23,7 +23,7 @@ const UserSchema = new Schema({
     },
     Batch : {
         type : String,
-        default: null
+        default: "NA"
     },
     mobile : {
         type : String,
@@ -32,7 +32,7 @@ const UserSchema = new Schema({
 
 }, { timestamps: true })
 
-const BillSchema = new Schema({
+const BillSchema = new mongoose.Schema({
     name : {
         type: String,
         unique: true,
@@ -50,3 +50,6 @@ const BillSchema = new Schema({
 
 exports.UserModal = mongoose.model('flexmoney.UserModal', UserSchema);
 exports.BillModal = mongoose.model('flexmoney.BillModal', BillSchema);
+
+
+
