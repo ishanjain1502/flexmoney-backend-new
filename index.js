@@ -3,6 +3,8 @@ const express = require("express");
 const path = require("path");
 const schedule = require('node-schedule');
 
+const {UserModal} = require('./models/v1/Schema')
+
 require("dotenv").config()
 var cors = require('cors')
 
@@ -40,6 +42,25 @@ app.use("/api/v1/users", UserRoutes);
 
 app.use(function (req, res, next) {
     next(createError(404));
+});
+
+// cron job to make everybody's status as false at the end of month
+const rule = new schedule.RecurrenceRule();
+rule.hour = 0;
+rule.minute = 0;
+rule.date = 1
+rule.tz = 'Japan'
+schedule.scheduleJob(rule, async function() {
+    console.log("inside Schedule");
+    UserModal.updateMany({status: true}, {status: false},
+        function(e, docs){
+            if(e){
+                console.error(e);
+            }
+            else{
+                console.log("Docs Updated");
+            }
+        })
 });
 
 app.use((req, res) => {
