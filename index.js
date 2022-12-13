@@ -35,7 +35,7 @@ app.listen(PORT, () => {
     console.log(`server is running on port ${PORT}`);
 });
 
-app.use("/api/v1/", IndexRoutes);
+app.use("/", IndexRoutes);
 app.use("/api/v1/users", UserRoutes);
 
 app.use(function (req, res, next) {
@@ -43,7 +43,7 @@ app.use(function (req, res, next) {
 });
 
 app.use((req, res) => {
-    res.status(404).send({
+    res.status(404).json({
       name: "Flexmoney assignment RESTful API",
       message: "NOT FOUND"
     });
