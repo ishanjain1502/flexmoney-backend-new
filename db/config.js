@@ -1,8 +1,7 @@
-require('dotenv').config();
-const mongoose =require('mongoose');
+require("dotenv").config();
+const mongoose = require("mongoose");
 
-
-const ConnectToDataBase=()=>{
+const ConnectToDataBase = () => {
   // console.log('Start Connections')
   try {
     mongoose.connect(process.env.MONGO_URI, {
@@ -20,9 +19,7 @@ const ConnectToDataBase=()=>{
   } catch (error) {
     console.log(error.message);
   }
-}
-
-
+};
 
 // const OffConnections = async () => {
 
@@ -36,6 +33,6 @@ const ConnectToDataBase=()=>{
 
 // }
 
-exports.Connect=ConnectToDataBase;
+exports.Connect = ConnectToDataBase;
 // exports.OffConnections=OffConnections;
 // exports.ONConnections=ONConnections;
