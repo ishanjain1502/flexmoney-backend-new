@@ -17,13 +17,13 @@ const SignUp = async(req,res) => {
         const data = await AddUserInDataBase(user);
 
         if(data.flag === 1){
-            return res.status(301).send({ info: 'Duplicate email or number' , status: 301});
+            return res.status(301).json({ info: 'Duplicate email or number' , status: 301});
         }
 
-        return res.status(200).send({ info: 'User Added', data , status: 200});
+        return res.status(200).json({ info: 'User Added', data , status: 200});
     }catch(e){
         console.log(e);
-        res.status(500).send(e);
+        res.status(500).json({e});
     }
 }
 
@@ -38,10 +38,10 @@ const SignIn = async (req, res) => {
         }
 
         const data = await FindUserWithEmailAndPassWord(user);
-        return res.status(200).send({ info: 'User Logged in', data , status : 200});
+        return res.status(200).json({ info: 'User Logged in', data , status : 200});
     } catch (e) {
         console.log(e);
-        res.status(500).send({e, status : 500});
+        res.status(500).json({e, status : 500});
     }
 }   
 
@@ -52,10 +52,10 @@ const UsersUpdate =async (req,res) => {
         console.log('call')
 
         const data = await UserDataUpdate(req.userId,req.body);
-        return res.status(200).send({ info: 'Users Updated', data , status : 200});
+        return res.status(200).json({ info: 'Users Updated', data , status : 200});
     } catch (e) {
         console.log(e);
-        res.status(500).send({e , status : 500});
+        res.status(500).json({e , status : 500});
     }
 }
 
